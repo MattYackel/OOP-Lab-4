@@ -22,4 +22,8 @@ public class SLLNode<E> {
     public void setValue(E value) {
         this.value = value;
     }
+
+    public boolean hasNext() {
+        return next != null;
+    }
 }

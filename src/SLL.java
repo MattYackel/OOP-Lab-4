@@ -2,50 +2,69 @@ import java.util.Iterator;
 
 public class SLL<E> implements ListADT<E> {
     private SLLNode<E> head;
+    private SLLNode<E> tail;
     private int size;
 
     public SLL() {
-        this.head = null;
+        this.head = this.tail = null;
         this.size = 0;
+    }
+
+    public SLLNode<E> getHead() {
+        return head;
+    }
+
+    public SLLNode<E> getTail() {
+        return tail;
     }
 
     public void add(E item) {
         SLLNode<E> newNode = new SLLNode<>(item);
 
-        if (head == null) {
-            head = newNode;
+        if (isEmpty()) {
+            head = tail = newNode;
         } else {
-            SLLNode<E> current = head;
-            while (current.getNext() != null) {
-                current = current.getNext();
-            }
-            current.setNext(newNode);
+            
+            tail.setNext(newNode);
+            tail = newNode;
         }
         size++;
     }
 
     @Override
     public void addAll(ListADT<E> items) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addAll'");
+        SLLIterator<E> iterator = new SLLIterator<>((SLL<E>) items);
+        while (iterator.hasNext()) {
+            add(iterator.next());
+        }
     }
 
     @Override
     public E get(int index) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'get'");
+        SLLNode<E> current = head;
+        for (int i = 0; i < index; i++) {
+            current = current.getNext();
+        }
+        return current.getValue();
     }
 
     @Override
     public void remove(int index) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'remove'");
+        SLLNode<E> current = head;
+        for (int i = 0; i < index - 1; i++) {
+            current = current.getNext();
+        }
+        current.setNext(current.getNext().getNext());
+        size--;
     }
 
     @Override
     public void set(int index, E item) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'set'");
+        SLLNode<E> current = head;
+        for (int i = 0; i < index; i++) {
+            current = current.getNext();
+        }
+        current.setValue(item);
     }
 
     public int size() {
@@ -58,19 +77,37 @@ public class SLL<E> implements ListADT<E> {
 
     @Override
     public Object[] toArray() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'toArray'");
+        Object[] array = new Object[size];
+        SLLNode<E> current = head;
+        for (int i = 0; i < size; i++) {
+            array[i] = current.getValue();
+            current = current.getNext();
+        }
+        return array;
     }
 
     @Override
     public void clear() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'clear'");
+        this.head = this.tail = null;
     }
 
     @Override
     public Iterator<E> iterator() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'iterator'");
+        SLLIterator<E> iterator = new SLLIterator<E>(this);
+        return iterator;
+    }
+
+    @Override
+    public String toString() {
+        if (isEmpty()) {
+            return "null";
+        }
+        String list = "";
+        SLLNode<E> current = head;
+        while (current != null) {
+            list += current.getValue() + " ";
+            current = current.getNext();
+        }
+        return list;
     }
 }
