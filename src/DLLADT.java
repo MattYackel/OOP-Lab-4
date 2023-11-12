@@ -5,7 +5,7 @@ public interface DLLADT<E> {
 
     E removeFirst();
 
-    void addAll(ListADT<E> items);
+    void addAll(ListADT<? extends E> items);
 
     E removeLast();
 

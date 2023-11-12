@@ -35,7 +35,7 @@ public class SLL<E> implements ListADT<E> {
     public void addAll(ListADT<E> items) {
         SLLIterator<E> iterator = new SLLIterator<>((SLL<E>) items);
         while (iterator.hasNext()) {
-            add(iterator.next());
+            add(iterator.next().getValue());
         }
     }
 
@@ -89,18 +89,18 @@ public class SLL<E> implements ListADT<E> {
     @Override
     public void clear() {
         this.head = this.tail = null;
+        size = 0;
     }
 
     @Override
     public Iterator<E> iterator() {
-        SLLIterator<E> iterator = new SLLIterator<E>(this);
-        return iterator;
+        return new SLLIterator();
     }
 
     @Override
     public String toString() {
         if (isEmpty()) {
-            return "null";
+            return "List is empty.";
         }
         String list = "";
         SLLNode<E> current = head;

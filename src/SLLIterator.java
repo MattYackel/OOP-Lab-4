@@ -1,6 +1,6 @@
 import java.util.Iterator;
 
-public class SLLIterator<E> implements Iterator<E> {
+public class SLLIterator<E> implements Iterator<SLLNode<E>> {
 
     SLL<E> list;
     SLLNode<E> current;
@@ -9,6 +9,10 @@ public class SLLIterator<E> implements Iterator<E> {
         this.list = list;
         this.current = list.getHead();
     }
+    public SLLIterator(){
+        this.list = null;
+        this.current = null;
+    }
 
     @Override
     public boolean hasNext() {
@@ -16,9 +20,9 @@ public class SLLIterator<E> implements Iterator<E> {
     }
 
     @Override
-    public E next() {
-        E value = current.getValue();
+    public SLLNode<E> next() {
+        SLLNode<E> result = current;
         current = current.getNext();
-        return value;
+        return result;
     }
 }
